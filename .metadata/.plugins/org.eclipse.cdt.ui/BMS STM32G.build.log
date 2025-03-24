@@ -1,0 +1,143 @@
+00:43:08 **** Incremental Build of configuration Debug for project BMS STM32G ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/LTC6804_STM-G.c" -mcpu=cortex-m0plus -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G0B1xx -c -I../Core/Inc -IC:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc -IC:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/Legacy -IC:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/CMSIS/Device/ST/STM32G0xx/Include -IC:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/LTC6804_STM-G.d" -MT"Core/Src/LTC6804_STM-G.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/LTC6804_STM-G.o"
+../Core/Src/LTC6804_STM-G.c:14:18: warning: data definition has no type or storage class
+   14 | #define uint16_t cmd;
+      |                  ^~~
+../Core/Src/LTC6804_STM-G.c:16:1: note: in expansion of macro 'uint16_t'
+   16 | uint16_t voltages[12]; //Buffer to store Voltage data
+      | ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:14:18: warning: type defaults to 'int' in declaration of 'cmd' [-Wimplicit-int]
+   14 | #define uint16_t cmd;
+      |                  ^~~
+../Core/Src/LTC6804_STM-G.c:16:1: note: in expansion of macro 'uint16_t'
+   16 | uint16_t voltages[12]; //Buffer to store Voltage data
+      | ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:16:10: warning: data definition has no type or storage class
+   16 | uint16_t voltages[12]; //Buffer to store Voltage data
+      |          ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:16:10: warning: type defaults to 'int' in declaration of 'voltages' [-Wimplicit-int]
+../Core/Src/LTC6804_STM-G.c:14:18: warning: data definition has no type or storage class
+   14 | #define uint16_t cmd;
+      |                  ^~~
+../Core/Src/LTC6804_STM-G.c:18:1: note: in expansion of macro 'uint16_t'
+   18 | uint16_t temperatures[6]; //Buffer to store Temperature data
+      | ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:14:18: warning: type defaults to 'int' in declaration of 'cmd' [-Wimplicit-int]
+   14 | #define uint16_t cmd;
+      |                  ^~~
+../Core/Src/LTC6804_STM-G.c:18:1: note: in expansion of macro 'uint16_t'
+   18 | uint16_t temperatures[6]; //Buffer to store Temperature data
+      | ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:18:10: warning: data definition has no type or storage class
+   18 | uint16_t temperatures[6]; //Buffer to store Temperature data
+      |          ^~~~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c:18:10: warning: type defaults to 'int' in declaration of 'temperatures' [-Wimplicit-int]
+../Core/Src/LTC6804_STM-G.c: In function 'LTC6804_Select':
+../Core/Src/LTC6804_STM-G.c:14:21: error: expected ')' before ';' token
+   14 | #define uint16_t cmd;
+      |                     ^
+C:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_gpio.h:88:38: note: in expansion of macro 'uint16_t'
+   88 | #define GPIO_PIN_4                 ((uint16_t)0x0010)  /* Pin 4 selected    */
+      |                                      ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:9:24: note: in expansion of macro 'GPIO_PIN_4'
+    9 | #define LTC6804_CS_PIN GPIO_PIN_4
+      |                        ^~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c:20:40: note: in expansion of macro 'LTC6804_CS_PIN'
+   20 |     HAL_GPIO_WritePin(LTC6804_CS_PORT, LTC6804_CS_PIN, GPIO_PIN_RESET);//SELECTS SLAVE BY PULLING DOWN LINE
+      |                                        ^~~~~~~~~~~~~~
+In file included from ../Core/Inc/stm32g0xx_hal_conf.h:214,
+                 from C:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Inc/LTC6804-STM-G.h:11,
+                 from ../Core/Src/LTC6804_STM-G.c:7:
+C:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_gpio.h:88:37: note: to match this '('
+   88 | #define GPIO_PIN_4                 ((uint16_t)0x0010)  /* Pin 4 selected    */
+      |                                     ^
+../Core/Src/LTC6804_STM-G.c:9:24: note: in expansion of macro 'GPIO_PIN_4'
+    9 | #define LTC6804_CS_PIN GPIO_PIN_4
+      |                        ^~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c:20:40: note: in expansion of macro 'LTC6804_CS_PIN'
+   20 |     HAL_GPIO_WritePin(LTC6804_CS_PORT, LTC6804_CS_PIN, GPIO_PIN_RESET);//SELECTS SLAVE BY PULLING DOWN LINE
+      |                                        ^~~~~~~~~~~~~~
+C:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_gpio.h:88:47: error: expected ')' before numeric constant
+   88 | #define GPIO_PIN_4                 ((uint16_t)0x0010)  /* Pin 4 selected    */
+      |                                    ~          ^~~~~~
+../Core/Src/LTC6804_STM-G.c:9:24: note: in expansion of macro 'GPIO_PIN_4'
+    9 | #define LTC6804_CS_PIN GPIO_PIN_4
+      |                        ^~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c:20:40: note: in expansion of macro 'LTC6804_CS_PIN'
+   20 |     HAL_GPIO_WritePin(LTC6804_CS_PORT, LTC6804_CS_PIN, GPIO_PIN_RESET);//SELECTS SLAVE BY PULLING DOWN LINE
+      |                                        ^~~~~~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c: In function 'LTC6804_Deselect':
+../Core/Src/LTC6804_STM-G.c:14:21: error: expected ')' before ';' token
+   14 | #define uint16_t cmd;
+      |                     ^
+C:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_gpio.h:88:38: note: in expansion of macro 'uint16_t'
+   88 | #define GPIO_PIN_4                 ((uint16_t)0x0010)  /* Pin 4 selected    */
+      |                                      ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:9:24: note: in expansion of macro 'GPIO_PIN_4'
+    9 | #define LTC6804_CS_PIN GPIO_PIN_4
+      |                        ^~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c:24:40: note: in expansion of macro 'LTC6804_CS_PIN'
+   24 |     HAL_GPIO_WritePin(LTC6804_CS_PORT, LTC6804_CS_PIN, GPIO_PIN_SET);              // DESELECTS SLAVE BY PULLING UP LINE
+      |                                        ^~~~~~~~~~~~~~
+C:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_gpio.h:88:37: note: to match this '('
+   88 | #define GPIO_PIN_4                 ((uint16_t)0x0010)  /* Pin 4 selected    */
+      |                                     ^
+../Core/Src/LTC6804_STM-G.c:9:24: note: in expansion of macro 'GPIO_PIN_4'
+    9 | #define LTC6804_CS_PIN GPIO_PIN_4
+      |                        ^~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c:24:40: note: in expansion of macro 'LTC6804_CS_PIN'
+   24 |     HAL_GPIO_WritePin(LTC6804_CS_PORT, LTC6804_CS_PIN, GPIO_PIN_SET);              // DESELECTS SLAVE BY PULLING UP LINE
+      |                                        ^~~~~~~~~~~~~~
+C:/Users/User/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.2/Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_gpio.h:88:47: error: expected ')' before numeric constant
+   88 | #define GPIO_PIN_4                 ((uint16_t)0x0010)  /* Pin 4 selected    */
+      |                                    ~          ^~~~~~
+../Core/Src/LTC6804_STM-G.c:9:24: note: in expansion of macro 'GPIO_PIN_4'
+    9 | #define LTC6804_CS_PIN GPIO_PIN_4
+      |                        ^~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c:24:40: note: in expansion of macro 'LTC6804_CS_PIN'
+   24 |     HAL_GPIO_WritePin(LTC6804_CS_PORT, LTC6804_CS_PIN, GPIO_PIN_SET);              // DESELECTS SLAVE BY PULLING UP LINE
+      |                                        ^~~~~~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c: At top level:
+../Core/Src/LTC6804_STM-G.c:14:21: error: expected ')' before ';' token
+   14 | #define uint16_t cmd;
+      |                     ^
+../Core/Src/LTC6804_STM-G.c:41:30: note: in expansion of macro 'uint16_t'
+   41 | void LTC6804_SendCommand_DMA(uint16_t *cmd, uint8_t length) {
+      |                              ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:14:21: error: expected ')' before ';' token
+   14 | #define uint16_t cmd;
+      |                     ^
+../Core/Src/LTC6804_STM-G.c:52:27: note: in expansion of macro 'uint16_t'
+   52 | void LTC6804_ReadData_DMA(uint16_t *cmd, uint8_t *data, uint8_t length) {
+      |                           ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c: In function 'LTC6804_StartCellVoltageConversion':
+../Core/Src/LTC6804_STM-G.c:14:18: warning: statement with no effect [-Wunused-value]
+   14 | #define uint16_t cmd;
+      |                  ^~~
+../Core/Src/LTC6804_STM-G.c:70:5: note: in expansion of macro 'uint16_t'
+   70 |     uint16_t cmd = CMD_ADCV; // ADCV Normal Mode, Discharge Disabled
+      |     ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:71:5: warning: implicit declaration of function 'LTC6804_SendCommand_DMA' [-Wimplicit-function-declaration]
+   71 |     LTC6804_SendCommand_DMA(cmd, 2);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/LTC6804_STM-G.c: At top level:
+../Core/Src/LTC6804_STM-G.c:14:21: error: expected ')' before ';' token
+   14 | #define uint16_t cmd;
+      |                     ^
+../Core/Src/LTC6804_STM-G.c:74:31: note: in expansion of macro 'uint16_t'
+   74 | void LTC6804_ReadCellVoltages(uint16_t *voltages) {
+      |                               ^~~~~~~~
+../Core/Src/LTC6804_STM-G.c:14:21: error: expected ')' before ';' token
+   14 | #define uint16_t cmd;
+      |                     ^
+../Core/Src/LTC6804_STM-G.c:95:31: note: in expansion of macro 'uint16_t'
+   95 | void LTC6804_ReadTemperatures(uint16_t *temperatures) {
+      |                               ^~~~~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/LTC6804_STM-G.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+
+00:43:08 Build Failed. 9 errors, 10 warnings. (took 434ms)
+

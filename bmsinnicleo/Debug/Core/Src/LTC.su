@@ -1,0 +1,12 @@
+../Core/Src/LTC.c:11:6:LTC6804_Select	8	static
+../Core/Src/LTC.c:18:6:LTC6804_DeSelect	8	static
+../Core/Src/LTC.c:30:6:init_PEC15_Table	16	static
+../Core/Src/LTC.c:48:10:LTC6804_CalculatePEC	24	static
+../Core/Src/LTC.c:62:6:LTC6804_PollTillAdcComplete	8	static
+../Core/Src/LTC.c:70:9:LTC6804_PollADCStatus	16	static
+../Core/Src/LTC.c:93:6:LTC6804_SendCommand	24	static
+../Core/Src/LTC.c:116:6:LTC6804_ReceiveData	16	static
+../Core/Src/LTC.c:129:6:LTC6804_Init	16	static
+../Core/Src/LTC.c:160:6:LTC6804_SerialWake	24	static
+../Core/Src/LTC.c:173:8:LTC6804_ReadAllCellVoltage	56	static
+../Core/Src/LTC.c:196:6:Transmit	72	static

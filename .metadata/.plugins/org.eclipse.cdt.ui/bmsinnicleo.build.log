@@ -1,0 +1,10 @@
+22:24:59 **** Incremental Build of configuration Debug for project bmsinnicleo ****
+make -j16 all 
+arm-none-eabi-size  bmsinnicleo.elf 
+   text	   data	    bss	    dec	    hex	filename
+  33664	    468	   2700	  36832	   8fe0	bmsinnicleo.elf
+Finished building: default.size.stdout
+ 
+
+22:25:00 Build Finished. 0 errors, 0 warnings. (took 1s.313ms)
+

@@ -70,7 +70,9 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	LTC6804_SerialWake();
+	LTC6804_Init();
+	init_PEC15_Table();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -101,10 +103,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-	  init_PEC15_Table();
-	  LTC6804_SerialWake();
-	  LTC6804_Init();
+    /* USER CODE END WHILE */	  
 	  HAL_Delay(1000);
 	  Transmit();
     /* USER CODE BEGIN 3 */

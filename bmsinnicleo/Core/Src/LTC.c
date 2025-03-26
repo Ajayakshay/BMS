@@ -5,11 +5,23 @@
 extern SPI_HandleTypeDef hspi2;
 extern UART_HandleTypeDef huart2;
 #define CRC15_POLY 0x4599
+extern TIM_HandleTypeDef htim1;
 
+
+void TimerDelay(uint16_t delay)
+{
+    __HAL_TIM_SET_COUNTER(&htim1, 0);
+    while(__HAL_TIM_GET_COUNTER(&htim1) < delay) {
+        if (__HAL_TIM_GET_COUNTER(&htim1) > (delay + 1000)) {
+            break;
+        }
+    }
+}
 
 //Chip Select
 void LTC6804_Select(void) {
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // Set PA0 low
+    TimerDelay(1000);
 }
 
 
@@ -17,6 +29,7 @@ void LTC6804_Select(void) {
 //Chip Deselect
 void LTC6804_DeSelect(void) {
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // Set PA0 high
+    TimerDelay(1000);
 }
 
 
@@ -25,14 +38,14 @@ void LTC6804_DeSelect(void) {
 
 #define CRC15_POLY 0x4599
 
-uint16_t pec15Table[256];  // Changed from int16_t to uint16_t (still 16-bit)
+uint16_t pec15Table[256];
 
 void init_PEC15_Table(void)
 {
-    for (uint16_t i = 0; i < 256; i++)  // Changed int to uint16_t
+    for (uint16_t i = 0; i < 256; i++)
     {
-        uint16_t remainder = i << 7;  // Changed from int16_t to uint16_t
-        for (uint8_t bit = 8; bit > 0; --bit)  // Changed int to uint8_t
+        uint16_t remainder = i << 7;
+        for (uint8_t bit = 8; bit > 0; --bit)
         {
             if (remainder & 0x4000) {
                 remainder = (remainder << 1) ^ CRC15_POLY;
@@ -41,19 +54,19 @@ void init_PEC15_Table(void)
                 remainder = (remainder << 1);
             }
         }
-        pec15Table[i] = remainder & 0x7FFF; // CRC15 is 15 bits (unchanged)
+        pec15Table[i] = remainder & 0x7FFF;
     }
 }
 
-uint16_t LTC6804_CalculatePEC(uint8_t *data, uint8_t len)  // Changed int to uint16_t
+uint16_t LTC6804_CalculatePEC(uint8_t *data, uint8_t len)
 {
-    uint16_t remainder = 16; // PEC seed (changed from int16_t to uint16_t)
-    for (uint16_t i = 0; i < len; i++)  // Changed int to uint16_t
+    uint16_t remainder = 16;
+    for (uint16_t i = 0; i < len; i++)
     {
-        uint8_t address = ((remainder >> 7) ^ data[i]) & 0xFF;  // Unchanged
-        remainder = (remainder << 8) ^ pec15Table[address];  // Unchanged
+        uint8_t address = ((remainder >> 7) ^ data[i]) & 0xFF;
+        remainder = (remainder << 8) ^ pec15Table[address];
     }
-    return (remainder * 2);  // Unchanged (still multiply by 2)
+    return (remainder * 2);
 }
 
 
@@ -61,7 +74,7 @@ uint16_t LTC6804_CalculatePEC(uint8_t *data, uint8_t len)  // Changed int to uin
 //Function to wait till ADC conversion is done
 void LTC6804_PollTillAdcComplete(void){
 	while(LTC6804_PollADCStatus()!=0x04){
-		HAL_Delay(100);
+		TimerDelay(10000);
 	}
 }
 
@@ -158,20 +171,21 @@ void LTC6804_Init(void) {
 
 
 void LTC6804_SerialWake(){
-    uint32_t twake = 1;  // Example: twake = 10 ms (adjust based on your devices)
-    uint32_t tready = 1;
-    HAL_Delay(twake);
+//    uint32_t twake = 1;  // Example: twake = 10 ms (adjust based on your devices)
+//    uint32_t tready = 1;
+	TimerDelay(1000);
     // Step 3: Send a dummy byte
     uint8_t dummy_byte = 0xFF;
     HAL_SPI_Transmit(&hspi2, &dummy_byte, 1, HAL_MAX_DELAY);
     // Step 4: Wait for 3 * TREADY
-    HAL_Delay(tready);
+    TimerDelay(1000);
 }
 
 
 //READ All Cell Voltages
 float* LTC6804_ReadAllCellVoltage(void){
 	LTC6804_SendCommand(CMD_ADCV);	//Start Cell Voltage Conversion
+	TimerDelay(1000);
 	LTC6804_PollTillAdcComplete();	//Poll TIll ADC conversion is completed
 	uint16_t cmd[4] = {CMD_RDCVA,CMD_RDCVB,CMD_RDCVC,CMD_RDCVD};	//Array With commands to send
 	uint8_t Temp_Voltage_Buffer[8];
@@ -185,6 +199,7 @@ float* LTC6804_ReadAllCellVoltage(void){
 	        for (int j = 0; j < 3; j++) {
 	            // Combine high byte and low byte into a 16-bit value
 	            voltages[3 * i + j] = (Temp_Voltage_Buffer[2 * j + 1] << 8) | Temp_Voltage_Buffer[2 * j];
+//	            HAL_UART_Transmit(&huart2, voltages[3*i + j], 6 , HAL_MAX_DELAY);
 	            voltage_readings[3* i + j] = voltages[3 * i + j]*0.0001f;
 	        }
 	    }
@@ -195,13 +210,13 @@ float* LTC6804_ReadAllCellVoltage(void){
 
 void Transmit(void){
 //	uint16_t voltages[12];
-
 	float* cell_voltages = LTC6804_ReadAllCellVoltage();
 	for(int i = 0; i < 12; i++) {
 	    char line[32];
 	    int len = snprintf(line, sizeof(line), "Cell %d: %.4f V\r", i+1, cell_voltages[i]);
 	    HAL_UART_Transmit(&huart2, (uint8_t*)line, len, HAL_MAX_DELAY);
-	    HAL_Delay(10);  // Small delay between transmissions if needed
+	    TimerDelay(1000);  // Small delay between transmissions if needed
+
 	}
 	HAL_UART_Transmit(&huart2, (uint8_t*)"\r\n", 2, HAL_MAX_DELAY);
 }

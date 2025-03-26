@@ -62,4 +62,5 @@ void LTC6804_ReceiveData(uint8_t *data_buffer, uint8_t data_length);
 float* LTC6804_ReadAllCellVoltage(void);
 void Transmit(void);
 void init_PEC15_Table(void);
+void TimerDelay(uint16_t delay);
 #endif // INC_LTC_H_

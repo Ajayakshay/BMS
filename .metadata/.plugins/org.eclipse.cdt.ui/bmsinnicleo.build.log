@@ -1,10 +1,17 @@
-22:24:59 **** Incremental Build of configuration Debug for project bmsinnicleo ****
+12:34:18 **** Incremental Build of configuration Debug for project bmsinnicleo ****
 make -j16 all 
+arm-none-eabi-gcc "../Core/Src/LTC.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/LTC.d" -MT"Core/Src/LTC.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/LTC.o"
+arm-none-eabi-gcc -o "bmsinnicleo.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\User\STM32CubeIDE\BMS Master\bmsinnicleo\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bmsinnicleo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bmsinnicleo.elf
+ 
 arm-none-eabi-size  bmsinnicleo.elf 
+arm-none-eabi-objdump -h -S bmsinnicleo.elf  > "bmsinnicleo.list"
    text	   data	    bss	    dec	    hex	filename
-  33664	    468	   2700	  36832	   8fe0	bmsinnicleo.elf
+  35408	    468	   2780	  38656	   9700	bmsinnicleo.elf
 Finished building: default.size.stdout
  
+Finished building: bmsinnicleo.list
+ 
 
-22:25:00 Build Finished. 0 errors, 0 warnings. (took 1s.313ms)
+12:34:20 Build Finished. 0 errors, 0 warnings. (took 2s.303ms)
 

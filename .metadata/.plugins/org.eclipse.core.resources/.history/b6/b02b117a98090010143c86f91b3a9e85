@@ -1,36 +1,73 @@
 #include "LTC.h"
+#include <stdio.h>
 #define HIGH_BYTE(opcode) ((opcode >> 8) & 0xFF)
 #define LOW_BYTE(opcode)  (opcode & 0xFF)
 extern SPI_HandleTypeDef hspi2;
+extern UART_HandleTypeDef huart2;
+#define CRC15_POLY 0x4599
+
+
 //Chip Select
 void LTC6804_Select(void) {
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // Set PA0 low
+    HAL_Delay(10);
 }
+
+
+
 //Chip Deselect
 void LTC6804_DeSelect(void) {
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // Set PA0 high
+    HAL_Delay(10);
 }
+
+
+
 // Function to calculate the PEC (Packet Error Code)
-uint16_t LTC6804_CalculatePEC(uint8_t *data, uint8_t len) {
-    uint16_t pec = 0x0010; // Initial PEC value
-    for (uint8_t i = 0; i < len; i++) {
-        pec ^= (uint16_t)data[i];
-        for (uint8_t j = 0; j < 8; j++) {
-            if (pec & 0x0001) {
-                pec = (pec >> 1) ^ 0x8408; // PEC polynomial
-            } else {
-                pec >>= 1;
+
+#define CRC15_POLY 0x4599
+
+uint16_t pec15Table[256];  // Changed from int16_t to uint16_t (still 16-bit)
+
+void init_PEC15_Table(void)
+{
+    for (uint16_t i = 0; i < 256; i++)  // Changed int to uint16_t
+    {
+        uint16_t remainder = i << 7;  // Changed from int16_t to uint16_t
+        for (uint8_t bit = 8; bit > 0; --bit)  // Changed int to uint8_t
+        {
+            if (remainder & 0x4000) {
+                remainder = (remainder << 1) ^ CRC15_POLY;
+            }
+            else {
+                remainder = (remainder << 1);
             }
         }
+        pec15Table[i] = remainder & 0x7FFF; // CRC15 is 15 bits (unchanged)
     }
-    return pec;
 }
+
+uint16_t LTC6804_CalculatePEC(uint8_t *data, uint8_t len)  // Changed int to uint16_t
+{
+    uint16_t remainder = 16; // PEC seed (changed from int16_t to uint16_t)
+    for (uint16_t i = 0; i < len; i++)  // Changed int to uint16_t
+    {
+        uint8_t address = ((remainder >> 7) ^ data[i]) & 0xFF;  // Unchanged
+        remainder = (remainder << 8) ^ pec15Table[address];  // Unchanged
+    }
+    return (remainder * 2);  // Unchanged (still multiply by 2)
+}
+
+
+
 //Function to wait till ADC conversion is done
 void LTC6804_PollTillAdcComplete(void){
 	while(LTC6804_PollADCStatus()!=0x04){
 		HAL_Delay(100);
 	}
 }
+
+
 
 uint8_t LTC6804_PollADCStatus(void) {
     uint8_t status[3]; // Status response is 3 bytes (2 bytes status + 1 byte PEC)
@@ -46,11 +83,14 @@ uint8_t LTC6804_PollADCStatus(void) {
 
     // Disable CS (deassert high)
     LTC6804_DeSelect();
-    status[0] = status[0]&&0x04;
+    status[0] = status[0]&0x04;
     // Return the ADC status (first byte)
     return status[0];
 
 }
+
+
+
 // Function to send a command to the LTC6804
 void LTC6804_SendCommand(uint16_t opcode) {
     uint8_t cmd[4]; // Command is 2 bytes, PEC is 2 bytes
@@ -72,6 +112,9 @@ void LTC6804_SendCommand(uint16_t opcode) {
 	LTC6804_DeSelect();
 
 }
+
+
+
 void LTC6804_ReceiveData(uint8_t *data_buffer, uint8_t data_length) {
     // Enable CS (assert low)
     LTC6804_Select();
@@ -82,6 +125,9 @@ void LTC6804_ReceiveData(uint8_t *data_buffer, uint8_t data_length) {
     // Disable CS (deassert high)
     LTC6804_DeSelect();
 }
+
+
+
 void LTC6804_Init(void) {
     // Step 1: Set up the configuration registers
     uint8_t config_reg[6] = {0}; // Configuration register group (6 bytes)
@@ -110,6 +156,9 @@ void LTC6804_Init(void) {
     HAL_SPI_Transmit(&hspi2, config_reg, 6, HAL_MAX_DELAY);
     LTC6804_DeSelect();
 }
+
+
+
 void LTC6804_SerialWake(){
     uint32_t twake = 1;  // Example: twake = 10 ms (adjust based on your devices)
     uint32_t tready = 1;
@@ -119,4 +168,43 @@ void LTC6804_SerialWake(){
     HAL_SPI_Transmit(&hspi2, &dummy_byte, 1, HAL_MAX_DELAY);
     // Step 4: Wait for 3 * TREADY
     HAL_Delay(tready);
+}
+
+
+//READ All Cell Voltages
+float* LTC6804_ReadAllCellVoltage(void){
+	LTC6804_SendCommand(CMD_ADCV);	//Start Cell Voltage Conversion
+	HAL_Delay(100);
+	LTC6804_PollTillAdcComplete();	//Poll TIll ADC conversion is completed
+	uint16_t cmd[4] = {CMD_RDCVA,CMD_RDCVB,CMD_RDCVC,CMD_RDCVD};	//Array With commands to send
+	uint8_t Temp_Voltage_Buffer[8];
+	uint16_t voltages[12];
+	static float voltage_readings[12] = {0.0f}; // Initialize all 12 elements to 0.0
+	for (int i = 0; i < 4; i++) {
+	        // Read data for the current command
+	        LTC6804_SendCommand(cmd[i]);
+	        LTC6804_ReceiveData(Temp_Voltage_Buffer, 8);
+	        // Combine two 8-bit values into one 16-bit value for each cell voltage
+	        for (int j = 0; j < 3; j++) {
+	            // Combine high byte and low byte into a 16-bit value
+	            voltages[3 * i + j] = (Temp_Voltage_Buffer[2 * j + 1] << 8) | Temp_Voltage_Buffer[2 * j];
+//	            HAL_UART_Transmit(&huart2, voltages[3*i + j], 6 , HAL_MAX_DELAY);
+	            voltage_readings[3* i + j] = voltages[3 * i + j]*0.0001f;
+	        }
+	    }
+	return (voltage_readings);
+}
+
+
+
+void Transmit(void){
+//	uint16_t voltages[12];
+	float* cell_voltages = LTC6804_ReadAllCellVoltage();
+	for(int i = 0; i < 12; i++) {
+	    char line[32];
+	    int len = snprintf(line, sizeof(line), "Cell %d: %.4f V\r", i+1, cell_voltages[i]);
+	    HAL_UART_Transmit(&huart2, (uint8_t*)line, len, HAL_MAX_DELAY);
+	    HAL_Delay(10);  // Small delay between transmissions if needed
+	}
+	HAL_UART_Transmit(&huart2, (uint8_t*)"\r\n", 2, HAL_MAX_DELAY);
 }

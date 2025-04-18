@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;nucleo.zip_expanded/bmsinnicleo.ioc&apos; to &apos;nucleo.zip_expanded.ioc&apos;" description="Rename resource &apos;bmsinnicleo.ioc&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="bmsinnicleo.ioc" name="nucleo.zip_expanded.ioc" stamp="1744741347574" updateReferences="true"/>
+</session>

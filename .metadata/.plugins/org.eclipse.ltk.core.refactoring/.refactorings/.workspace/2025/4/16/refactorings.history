@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;nucleo.zip_expanded&apos; to &apos;NucleoBMS&apos;" description="Rename resource &apos;nucleo.zip_expanded&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/nucleo.zip_expanded" name="NucleoBMS" stamp="1744961608517" updateReferences="true"/>
+</session>

@@ -194,6 +194,7 @@ void LTC6804_Init(void) {
     LTC6804_SendCommand(CMD_WRCFG); // Send the Write Configuration command
 //    LTC6804_Select();
     HAL_SPI_Transmit(&hspi2, config_reg, 8, HAL_MAX_DELAY);
+    LTC6804_DeSelect();
 }
 
 
@@ -203,7 +204,7 @@ void LTC6804_SerialWake(){
 //    uint32_t tready = 1;
     // Step 3: Send a dummy byte
     LTC6804_Select();
-    delay_us(3);
+    delay_us(2);
     LTC6804_DeSelect();
 
 }
@@ -211,6 +212,7 @@ void LTC6804_SerialWake(){
 
 //READ All Cell Voltages
 float* LTC6804_ReadAllCellVoltage(void){
+	LTC6804_Select();
 	LTC6804_SendCommand(CMD_ADCV);	//Start Cell Voltage Conversion
 	LTC6804_DeSelect();
 	delay_us(3000);

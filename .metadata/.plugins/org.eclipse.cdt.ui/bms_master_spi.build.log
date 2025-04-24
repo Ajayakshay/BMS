@@ -1,0 +1,10 @@
+19:00:02 **** Incremental Build of configuration Debug for project bms_master_spi ****
+make -j16 all 
+arm-none-eabi-size  bms_master_spi.elf 
+   text	   data	    bss	    dec	    hex	filename
+  33924	    468	   2252	  36644	   8f24	bms_master_spi.elf
+Finished building: default.size.stdout
+ 
+
+19:00:02 Build Finished. 0 errors, 0 warnings. (took 313ms)
+

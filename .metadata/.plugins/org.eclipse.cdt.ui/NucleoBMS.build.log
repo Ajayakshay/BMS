@@ -1,0 +1,10 @@
+18:43:30 **** Incremental Build of configuration Debug for project NucleoBMS ****
+make -j16 all 
+arm-none-eabi-size  NucleoBMS.elf 
+   text	   data	    bss	    dec	    hex	filename
+  35056	    468	   2780	  38304	   95a0	NucleoBMS.elf
+Finished building: default.size.stdout
+ 
+
+18:43:30 Build Finished. 0 errors, 0 warnings. (took 394ms)
+

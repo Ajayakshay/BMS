@@ -109,7 +109,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  Transmit();
+	  Transmit();
 	  LTC6804_ReadConfig();
 	  delay_ms(1000);
 //	  HAL_UART_Transmit(&huart2, (uint8_t*)"hello world!", strlen("hello world!"), 100);

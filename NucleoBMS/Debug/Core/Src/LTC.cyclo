@@ -13,6 +13,6 @@
 ../Core/Src/LTC.c:127:6:LTC6804_SendCommand	1
 ../Core/Src/LTC.c:151:6:LTC6804_ReceiveData	1
 ../Core/Src/LTC.c:164:6:LTC6804_Init	1
-../Core/Src/LTC.c:201:6:LTC6804_SerialWake	1
-../Core/Src/LTC.c:213:8:LTC6804_ReadAllCellVoltage	3
-../Core/Src/LTC.c:240:6:Transmit	2
+../Core/Src/LTC.c:202:6:LTC6804_SerialWake	1
+../Core/Src/LTC.c:214:8:LTC6804_ReadAllCellVoltage	3
+../Core/Src/LTC.c:242:6:Transmit	2

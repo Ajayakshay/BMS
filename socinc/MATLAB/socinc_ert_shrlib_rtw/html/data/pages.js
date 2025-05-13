@@ -1,0 +1,1 @@
+var reportPages = [["Summary","socinc_survey.html"],["Subsystem Report","socinc_subsystems.html"],["Code Interface Report","socinc_interface.html"],["Traceability Report","socinc_trace.html"],["Static Code Metrics Report","socinc_metrics.html"],["Code Replacements Report","socinc_replacements.html"],["Coder Assumptions","socinc_coderassumptions.html"]];

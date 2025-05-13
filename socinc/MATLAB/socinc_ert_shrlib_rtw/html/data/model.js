@@ -1,0 +1,1 @@
+var modelInfo = {model:"socinc"};var modelHierarchy=[{model:"socinc",relativePath:"_internal.html",parent:"null"},];var AddCode = true;
